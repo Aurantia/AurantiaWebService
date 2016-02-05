@@ -1,4 +1,4 @@
-# Dillinger
+# AurantiaWebService
 
 A AurantiaWebService é uma API REST escrita em Python utilizando o microframework Flask. Ela é parte fundamental do projeto Aurantia, fornecendo dados dos arduinos para utilização e integração com outras aplicações.
 
