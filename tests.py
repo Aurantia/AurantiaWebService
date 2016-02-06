@@ -35,7 +35,8 @@ class TestViews(TestCase):
                                         data=dict(ip_address="192.153.24.19",
                                                     luminosity="530",
                                                         bustling="True",
-                                                            temperature="27"),
+                                                            temperature="27",
+                                                            secret_key=new_arduino.secret_key),
                                         follow_redirects=True)
         result = json.loads(response.data)
         assert 'sucess' in result['message']

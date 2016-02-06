@@ -12,6 +12,12 @@ def find_arduino(ip):
         return True
     return False
 
+def check_secret_key(ip, secret_key):
+    arduino = Arduino.query.filter_by(ip_address=str(ip)).first()
+    if secret_key != arduino.secret_key:
+        return False
+    return True
+
 def get_json_message(code, message):
     resp_data = {
         'code': str(code),
@@ -20,5 +26,4 @@ def get_json_message(code, message):
     resp = jsonify(resp_data)
     resp.status_code = int(code)
     return resp
-
 

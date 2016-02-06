@@ -28,7 +28,7 @@ $ python manage.py runserver
 The url of api is this: http://localhost:8080/api/.
 
 ## Database Model
-![Database Model](https://i.imgsafe.org/2770e91.jpg)
+![Database Model](https://i.imgsafe.org/25397a2.jpg)
 
 # License
 
