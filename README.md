@@ -9,15 +9,26 @@ After cloning the project and enter the directory, you must download and install
 ```sh
 $ pip install -r requirements.txt
 ```
-Also add an environment variable to set the local server configuration when it runs. To do this, you should go to the **postactivate** file(this file is located in $VIRTUAL_ENV/bin) and add the following line:
+We will also add two variables. The first set the local server configuration, the second sets the url of the site database. To do this, you should go to the **postactivate** file(this file is located in $VIRTUAL_ENV/bin) and Add the following lines:
 ```sh
-$ export APP_SETTINGS="settings.DevelopmentConfig"
+export APP_SETTINGS="settings.DevelopmentConfig"
+export DATABASE_URL="postgres://postgres:aurantiax@localhost/aurantiadb"
 ```
-Now that everything is ready, simply lift the server. Use the following command:
+Finally, you must start the database and raise the local server. To start the database, run the following commands:
+```sh
+$ python manage.py db init
+$ python manage.py db migrate
+$ python manage.py db upgrade
+```
+Now that everything is ready, simply raise the server. Use the following command:
 ```sh
 $ python manage.py runserver
 ```
 The url of api is this: http://localhost:8080/api/.
+
+## Database Model
+![Database Model](https://i.imgsafe.org/60d62bd.jpg)
+
 # License
 
 This file is part of AurantiaWebService.
