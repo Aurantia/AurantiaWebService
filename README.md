@@ -2,7 +2,7 @@
 [![Python version](https://img.shields.io/badge/python-v2.7-orange.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-GPL-blue.svg)](http://www.gnu.org/licenses/gpl-3.0.en.html)
 
-The Aurant WebService is a REST API written in Python using the microframework Flask. It is a fundamental part of Aurant project, providing data from Arduino to use and integration with other applications.
+The AurantiaWebService is a REST API written in Python using the microframework Flask. It is a fundamental part of Aurant project, providing data from Arduino to use and integration with other applications.
 
 ## Usage
 After cloning the project and enter the directory, you must download and install all project dependencies. It is noteworthy that it is extremely important that you create a virtual environment (with virtualenv) to run the project. You must run the following command:
