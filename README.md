@@ -12,6 +12,7 @@ $ pip install -r requirements.txt
 We will also add two variables. The first set the local server configuration, the second sets the url of the site database. To do this, you should go to the **postactivate** file(this file is located in $VIRTUAL_ENV/bin) and Add the following lines:
 ```sh
 export APP_SETTINGS="settings.DevelopmentConfig"
+export APP_TESTING="settings.TestingConfig"
 export DATABASE_URL="your-database-url"
 ```
 Finally, you must start the database and raise the local server. To start the database, run the following commands:

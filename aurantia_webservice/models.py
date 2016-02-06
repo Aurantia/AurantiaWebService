@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
+import datetime
+
 from aurantia_webservice.core.db import db
 
 
@@ -12,6 +14,11 @@ class Arduino(db.Model):
     timestamp = db.Column(db.DateTime)
     informations = db.relationship('Data', backref='arduino',
                                 lazy='dynamic')
+
+    def __init__(self, name, ip_address, timestamp=None):
+        self.name = name
+        self.ip_address = ip_address
+        self.timestamp = datetime.datetime.now()
 
     def __repr__(self):
         return '<Arduino %r>' %(self.ip_address)
@@ -26,5 +33,13 @@ class Data(db.Model):
     date_log = db.Column(db.DateTime)
     arduino_id = db.Column(db.Integer, db.ForeignKey('arduino.id'))
     
+    def __init__(self, luminosity, temperature, bustling, arduino_id,
+                    date_log=None):
+        self.luminosity = luminosity
+        self.temperature = temperature
+        self.bustling = bustling
+        self.arduino_id = arduino_id
+        self.date_log = datetime.datetime.now()
+
     def __repr__(self):
         return '<Data of arduino %r>' %(self.arduino_id)
