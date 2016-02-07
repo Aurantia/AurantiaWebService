@@ -21,7 +21,7 @@ def check_register_data(dict_data):
 
 def get_all_arduino_data(arduino_id):
     arduino = Arduino.query.filter_by(id=arduino_id).first()
-    result = Data.query.filter_by(arduino_id=arduino_id).order_by(Data.date_log.desc()).all()
+    result = Data.query.filter_by(arduino_id=arduino_id).order_by(Data.timestamp.desc()).all()
     return result
 
 def clean_list_objects(list_data):
@@ -34,7 +34,7 @@ def clean_list_objects(list_data):
     return list_result
 
 def convert_list_data_to_dict(data):
-    cleaned_data = _clean_list_objects(data)
+    cleaned_data = clean_list_objects(data)
     return jsonify(results = cleaned_data)
 
 def check_arduino_connection(ip_address):
