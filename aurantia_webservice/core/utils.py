@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
+from random import randrange
 from flask import jsonify
 
 from aurantia_webservice.models import Arduino
@@ -27,3 +28,13 @@ def get_json_message(code, message):
     resp.status_code = int(code)
     return resp
 
+def generate_random_ip():
+    not_valid = [10,127,169,172,192]
+ 
+    first = randrange(1,256)
+    while first in not_valid:
+        first = randrange(1,256)
+ 
+    ip = ".".join([str(first),str(randrange(1,256)),
+    str(randrange(1,256)),str(randrange(1,256))])
+    return ip

@@ -6,6 +6,19 @@ import os
 
 from aurantia_webservice.core.db import db
 
+class Laboratory(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+
+    name = db.Column(db.String(30), nullable=False)
+    arduinos = db.relationship('Arduino', backref='laboratory',
+                                lazy='dynamic')
+
+    def __init__(self, name):
+        self.name = name
+
+    def __repr__(self):
+        return '<Laboratory %r>' %(self.name)
+
 
 class Arduino(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -14,6 +27,7 @@ class Arduino(db.Model):
     ip_address = db.Column(db.String(15), unique=True, nullable=False)
     timestamp = db.Column(db.DateTime)
     secret_key = db.Column(db.String(16), unique=True, nullable=False)
+    laboratory_id = db.Column(db.Integer, db.ForeignKey('laboratory.id'))
     informations = db.relationship('Data', backref='arduino',
                                 lazy='dynamic')
 
@@ -33,7 +47,7 @@ class Data(db.Model):
     luminosity = db.Column(db.Integer, nullable=False)
     temperature = db.Column(db.Float, nullable=False)
     bustling = db.Column(db.Boolean)
-    date_log = db.Column(db.DateTime)
+    timestamp = db.Column(db.DateTime)
     arduino_id = db.Column(db.Integer, db.ForeignKey('arduino.id'))
     
     def __init__(self, luminosity, temperature, bustling, arduino_id):
@@ -41,7 +55,7 @@ class Data(db.Model):
         self.temperature = temperature
         self.bustling = bustling
         self.arduino_id = arduino_id
-        self.date_log = datetime.datetime.now()
+        self.timestamp = datetime.datetime.now()
 
     def __repr__(self):
         return '<Data of arduino %r>' %(self.arduino_id)
