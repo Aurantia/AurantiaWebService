@@ -31,9 +31,10 @@ class Arduino(db.Model):
     informations = db.relationship('Data', backref='arduino',
                                 lazy='dynamic')
 
-    def __init__(self, name, ip_address):
+    def __init__(self, name, ip_address, laboratory_id):
         self.name = name
         self.ip_address = ip_address
+        self.laboratory_id = laboratory_id
         self.timestamp = datetime.datetime.now()
         self.secret_key = os.urandom(8).encode('hex')
 
