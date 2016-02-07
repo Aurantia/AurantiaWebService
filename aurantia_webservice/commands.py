@@ -1,13 +1,16 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-from flask.ext.script import Command
+import random
+
+from flask.ext.script import Command, Option
+from flask.ext.script.commands import InvalidCommand
 
 from aurantia_webservice import create_app
 from aurantia_webservice.core.db import db
 from aurantia_webservice.core.utils import generate_random_ip
 
-from models import Arduino, Data
+from models import Arduino, Data, Laboratory
 
 
 class Server(Command):
@@ -18,21 +21,45 @@ class Server(Command):
 
 class PopulateDatabase(Command):
 
-    def run(self):
-        new_arduino = Arduino("Lab", generate_random_ip())
-        first_data = Data(
-                luminosity = 654,
-                temperature = 20.4,
-                bustling = True,
-                arduino_id = new_arduino.id
+    option_list = (
+            Option('--table', '-t', dest='table'),
+            Option('--reference', '-r', dest='reference'),
+        )
+
+    def run(self, table, reference):
+        tables = ["arduino", "data"]
+        if table in tables and reference is None:
+            raise InvalidCommand("Options table and reference are incompatible")
+
+        if table == "laboratory":
+            lab_number = random.randint(0, 200)
+            new_laboratory = Laboratory(name="Lab " + str(lab_number))
+            print new_laboratory.name
+            db.session.add(new_laboratory)
+            db.session.commit()
+
+        if table == "arduino":
+            arduino_number = random.randint(0, 200)
+            new_arduino = Arduino(
+                name = "Arduino " + str(arduino_number),
+                ip_addres = generate_random_ip(),
+                laboratory_id = reference
             )
-        second_data = Data(
-                luminosity = 230,
-                temperature = 28.4,
-                bustling = False,
-                arduino_id = new_arduino.id
+
+            db.session.add(new_arduino)
+            db.session.commit()
+
+        if table == "data":
+            luminosity = random.randint(50, 1000)
+            temperature = random.randint(15, 30)
+            bustling = random.choice([True, False])
+            new_data = Data(
+                luminosity =  luminosity,
+                temperature =  temperature,
+                bustling = bustling,
+                arduino_id = reference
             )
-        new_arduino.informations.append(first_data)
-        new_arduino.informations.append(second_data)
-        db.session.add(new_arduino)
-        db.session.commit()
+
+            db.session.add(new_data)
+            db.session.commit()
+
