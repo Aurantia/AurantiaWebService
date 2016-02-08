@@ -29,6 +29,18 @@ The url of api is this: http://localhost:8080/api/.
 
 ## Database Model
 ![Database Model](https://i.imgsafe.org/715c1c9.jpg)
+## Routes
+**/api/**: Returns all arduino. [GET]
+
+**/api/status/**: Returns all arduino status. [GET]
+
+**/api/<arduino_id>/**: Returns all arduino data. [GET]
+
+**/api/<arduino_id>/status/**: Return arduino status. [GET]
+
+**/api/lab/<lab_id>/**: Returns all arduino lab. [GET]
+
+**/api/lab/<lab_id>/**: Returns status of all arduino lab. [GET]
 # License
 
 This file is part of AurantiaWebService.
