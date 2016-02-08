@@ -6,7 +6,7 @@ import json
 
 from flask import jsonify
 
-from aurantia_webservice.models import Arduino, Data
+from aurantia_webservice.models import Arduino, Data, Laboratory
 
 def check_arduino_data_integrity(dict_data):
     full_dict = (dict_data.has_key('ip_address') 
@@ -19,8 +19,11 @@ def check_arduino_data_integrity(dict_data):
 def check_register_data(dict_data):
     return dict_data.has_key('name') and dict_data.has_key('ip_address')
 
+def get_all_arduino_laboratory(lab_id):
+    result = Arduino.query.filter_by(laboratory_id=lab_id).all()
+    return result
+
 def get_all_arduino_data(arduino_id):
-    arduino = Arduino.query.filter_by(id=arduino_id).first()
     result = Data.query.filter_by(arduino_id=arduino_id).order_by(Data.timestamp.desc()).all()
     return result
 
@@ -49,10 +52,9 @@ def check_arduino_connection(ip_address):
         socket_object.close()
     return result
 
-def check_all_arduino_connection():
-    all_arduino = Arduino.query.all()
+def check_list_arduino_connection(list_objects):
     list_result = []
-    for arduino in all_arduino:
+    for arduino in list_objects:
         arduino_status = check_arduino_connection(arduino.ip_address)
         dict_temp = {
             'id' : arduino.id,
@@ -61,4 +63,4 @@ def check_all_arduino_connection():
         }
         list_result.append(dict_temp)
 
-    return jsonify(results = list_result)
+    return list_result
