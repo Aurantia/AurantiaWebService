@@ -40,7 +40,7 @@ The url of api is this: http://localhost:8080/api/.
 
 **/api/lab/[lab_id]/**: Returns all arduino lab. **[GET]**
 
-**/api/lab/[lab_id]/**: Returns status of all arduino lab. **[GET]**
+**/api/lab/[lab_id]/status/**: Returns status of all arduino lab. **[GET]**
 
 **/api/register-arduino/**: Register an arduino and returns an access token for this arduino. **[POST]**
 
