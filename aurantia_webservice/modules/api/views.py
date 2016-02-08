@@ -18,16 +18,16 @@ from utils import (check_arduino_data_integrity, get_all_arduino_data,
 module_api = Blueprint('api', __name__, url_prefix='/api')
 
 
-@module_api.route("/", methods = ['GET'])
+@module_api.route("/arduino/all/", methods = ['GET'])
 def index():
     all_arduino = Arduino.query.all()
     result = clean_list_objects(all_arduino)
-    resp = jsonify(results = result)
+    resp = jsonify(results = result, total_arduino=len(all_arduino))
     resp.status_code = 200
 
     return resp
 
-@module_api.route('/status/', methods = ['GET'])
+@module_api.route('/arduino/all/status/', methods = ['GET'])
 def all_arduino_status():
     all_arduino = Arduino.query.all()
     result = check_list_arduino_connection(all_arduino)
@@ -41,7 +41,8 @@ def lab_arduino(lab_id):
     if laboratory is not None:
         all_arduino = get_all_arduino_laboratory(lab_id)
         resp = jsonify(results = clean_list_objects(all_arduino),
-                        lab_name=laboratory.name, lab_id=laboratory.id)
+                        lab_name=laboratory.name, lab_id=laboratory.id,
+                        total_arduino=len(all_arduino))
         resp.status_code = 200
 
         return resp
@@ -60,7 +61,7 @@ def lab_arduino_status(lab_id):
         return resp
     return get_json_message(404, 'Lab not found.')
 
-@module_api.route('/<int:arduino_id>/', methods = ['GET'])
+@module_api.route('/arduino/<int:arduino_id>/', methods = ['GET'])
 def arduino_data(arduino_id):
     arduino = Arduino.query.filter_by(id=arduino_id).first()
     if arduino is not None:
@@ -70,7 +71,7 @@ def arduino_data(arduino_id):
         return resp
     return get_json_message(404, 'Arduino not found')
 
-@module_api.route('/<int:arduino_id>/status/', methods = ['GET'])
+@module_api.route('/arduino/<int:arduino_id>/status/', methods = ['GET'])
 def arduino_status(arduino_id):
     arduino = Arduino.query.filter_by(id=arduino_id).first()
     if arduino is not None:
@@ -79,7 +80,7 @@ def arduino_status(arduino_id):
         return resp
     return get_json_message(404, 'Arduino not found')
 
-@module_api.route('/register-arduino/', methods = ['POST'])
+@module_api.route('/arduino/register/', methods = ['POST'])
 def arduino_register():
     fields = request.form.to_dict()
     if check_register_data(fields):
@@ -94,7 +95,7 @@ def arduino_register():
         return resp
     return get_json_message(404, 'integrity data error')
 
-@module_api.route('/arduino-signal/', methods = ['POST'])
+@module_api.route('/arduino/signal/', methods = ['POST'])
 @arduino_registered
 def arduino_signal_data():
     fields = request.form.to_dict()
