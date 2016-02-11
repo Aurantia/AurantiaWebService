@@ -28,7 +28,7 @@ $ python manage.py runserver
 The url of api is this: http://localhost:8080/api/.
 
 ## Database Model
-![Database Model](https://i.imgsafe.org/715c1c9.jpg)
+![Database Model](https://i.imgsafe.org/7f44a95.png)
 ## Routes
 **/api/arduino/all/**: Returns all arduino. **[GET]**
 
