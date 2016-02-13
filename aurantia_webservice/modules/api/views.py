@@ -72,7 +72,7 @@ def arduino_data(arduino_id):
     return get_json_message(404, 'Arduino not found')
 
 @module_api.route('/arduino/<int:arduino_id>/status/', methods = ['GET'])
-def arduino_status(arduino_id):
+def arduino_status(arduino_id, key):
     arduino = Arduino.query.filter_by(id=arduino_id).first()
     if arduino is not None:
         result = check_arduino_connection(arduino.ip_address)
